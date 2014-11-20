@@ -76,7 +76,7 @@ class Date {
      */
     public static int daysInMonth(int month, int year) {
         if(month == 2)
-        	return isLeapYear(year) ? 29 : 28;
+            return isLeapYear(year) ? 29 : 28;
         else
             return _daysInMonth[month];
     }
@@ -101,10 +101,10 @@ class Date {
     public static boolean isValidDate(int month, int day, int year) {
         if(year < 1 || year > 9999) 
             return false;
-	    if(month < 0 || month > 12)
-		    return  false;
-	    if(day < 0 || day > daysInMonth(month, year))
-		    return false;
+        if(month < 0 || month > 12)
+            return  false;
+        if(day < 0 || day > daysInMonth(month, year))
+            return false;
         return true;
     }
 
@@ -126,14 +126,14 @@ class Date {
      */
     public boolean isBefore(Date d) { 
     	//return difference(d) < 0;
-    	if(this._year == d._year) {
-    		if(this._month == d._month)
-    			return this._day < d._day;
-    		else
-    			return this._month < d._month;
-    	}
+        if(this._year == d._year) {
+            if(this._month == d._month)
+                return this._day < d._day;
+            else
+                return this._month < d._month;
+        }
     	else 
-    		return this._year < d._year;
+            return this._year < d._year;
     }
 
     /**
@@ -143,14 +143,14 @@ class Date {
      */
     public boolean isAfter(Date d) {
     	//return difference(d) > 0;
-    	if(this._year == d._year) {
-    		if(this._month == d._month)
-    			return this._day > d._day;
-    		else
-    			return this._month > d._month;
-    	}
-    	else 
-    		return this._year > d._year;
+        if(this._year == d._year) {
+            if(this._month == d._month)
+                return this._day > d._day;
+            else
+                return this._month > d._month;
+        }
+        else 
+            return this._year > d._year;
     }
 
     /**
@@ -173,9 +173,9 @@ class Date {
      */
     public int difference(Date d) {
         int count = this.dayInYear() - d.dayInYear();
-	    int flag = this._year > d._year ?  1  :  -1 ;
-		for(int year = d._year;year != this._year; year+=flag ) {
-                count += daysInYear(year) * flag;
+        int flag = this._year > d._year ?  1  :  -1 ;
+        for(int year = d._year;year != this._year; year+=flag ) {
+            count += daysInYear(year) * flag;
         return count;
     }
 
