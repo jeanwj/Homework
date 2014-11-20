@@ -38,13 +38,13 @@ class Date {
      * a valid date, the program halts with an error message.
      */
     public Date(String s) {
+		if (s == null) {
+            throw new IllegalArgumentException("Input string is illegal");
+        }
         String[] tokens = s.split("/");
         if (tokens.length != 3) {
             throw new IllegalArgumentException("Input string is illegal");
         }
-        
-        if(tokens[0].length() > 2 || tokens[1].length() > 2 ||tokens[2].length() > 4 )
-        	throw new IllegalArgumentException("Input string is illegal");
         
         this._month = Integer.parseInt(tokens[0]);
         this._day = Integer.parseInt(tokens[1]);
@@ -88,10 +88,7 @@ class Date {
      * @return the number of days in the given month.
      */
     public static int daysInYear(int year) {
-        int count = 0;
-        for(int i = 1; i <= 12; i++)
-            count += daysInMonth(i, year);
-        return count;
+        return isLeapYear(year) ? 366 : 365;
     }
 
     /**
@@ -102,9 +99,13 @@ class Date {
      * Years prior to A.D. 1 are NOT valid.
      */
     public static boolean isValidDate(int month, int day, int year) {
-        if(year < 1 || month < 0 || month > 12) 
+        if(year < 1 || year > 9999) 
             return false;
-        return day >= 0 && day <= daysInMonth(month, year);                        
+	    if(month < 0 || month > 12)
+		    return  false;
+	    if(day < 0 || day > daysInMonth(month, year))
+		    return false;
+        return true;
     }
 
     /**
@@ -172,16 +173,9 @@ class Date {
      */
     public int difference(Date d) {
         int count = this.dayInYear() - d.dayInYear();
-        if(this._year > d._year) {
-            for(int year = d._year;year < this._year; year++ ) {
-                count += daysInYear(year);
-            }
-        }
-        else if (this._year < d._year) {
-            for(int year = this._year; year < d._year; year++ ) {
-                count -= daysInYear(year);
-            }
-        }
+	    int flag = this._year > d._year ?  1  :  -1 ;
+		for(int year = d._year;year != this._year; year+=flag ) {
+                count += daysInYear(year) * flag;
         return count;
     }
 
