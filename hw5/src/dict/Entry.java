@@ -20,5 +20,9 @@ public class Entry {
 	public Object value() {
 		return value;
 	}
+	
+	public String toString(){
+		return "(" + key.toString() + ", " + value.toString() + ")";
+	}
 
 }

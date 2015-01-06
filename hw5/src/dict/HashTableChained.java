@@ -77,8 +77,8 @@ public class HashTableChained implements Dictionary {
 
 	int compFunction(int code) {
 		// Replace the following line with your solution.
-		int hashCode = code % this.capacity;
-		return hashCode > 0 ? hashCode : - hashCode;
+		code = code > 0 ? code : -code;
+		return code % this.capacity;
 	}
 
 	/**
@@ -131,6 +131,7 @@ public class HashTableChained implements Dictionary {
 		if(entry == null)
 			this.entries[index] = new DList();
 		this.entries[index].insertBack(newEntry);
+		this.size++;
 		return newEntry;
 	}
 
@@ -186,6 +187,7 @@ public class HashTableChained implements Dictionary {
 			Entry entry = (Entry)node.item;
 			if(entry.key.hashCode() == key.hashCode() || entry.key.equals(key)){
 				entryList.remove(node);
+				this.size--;
 				return entry;
 			}
 		}
@@ -206,5 +208,36 @@ public class HashTableChained implements Dictionary {
 				entryList = null;
 			}
 		}
+		this.size = 0;
+	}
+	
+	public String toString(){
+		StringBuilder builder = new StringBuilder();
+		for(int i=0;i<this.capacity;i++){
+			DList entryList = this.entries[i];
+			if(entryList != null){
+				for(DListNode node=entryList.front(); node != null; node = entryList.next(node)){
+					Entry entry = (Entry)node.item;
+					builder.append(entry.toString() + ", ");
+				}
+			}
+		}
+		if(builder.length() > 2)
+			builder.delete(builder.length()-2, builder.length()-1);
+		return builder.toString();
+	}
+	
+	public static void main(String[] args) {
+		HashTableChained dict = new HashTableChained();
+		dict.insert("A", "1");
+		dict.insert("B", "2");
+		dict.insert("C", "3");
+		System.out.println(dict.size() + " Items: " + dict.toString());
+		
+		dict.remove("C");
+		System.out.println(dict.size() + " Items: " + dict.toString());
+		
+		dict.makeEmpty();
+		System.out.println(dict.size() + " Items: " + dict.toString());
 	}
 }
