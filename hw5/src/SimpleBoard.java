@@ -97,15 +97,17 @@ public class SimpleBoard {
 
 	public int hashCode() {
 		// Replace the following line with your solution.
+		int hash = 0x7FFFFFFF;
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < DIMENSION; i++) {
+			builder.delete(0, builder.length());
 			for (int j = 0; j < DIMENSION; j++) {
 				builder.append(this.grid[i][j]);
 			}
+			int row = Integer.parseInt(builder.toString(), 3);
+			hash ^= row * 397;
 		}
-		int code1 = (int)Long.parseLong(builder.substring(0, builder.length() / 2 - 1), 3);
-		int code2 = (int)Long.parseLong(builder.substring(builder.length() / 2, builder.length() - 1), 3);
-		return code1 ^ code2;
+		return hash;
 	}
 
 }
